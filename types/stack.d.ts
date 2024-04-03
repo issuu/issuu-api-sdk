@@ -20,17 +20,23 @@ type UpdateStackResponse = GetStackResponse;
 
 type GetStackItemsRequest = {
     /**
-     * Default true.
+     * Include unlisted stacks in the list of stacks.
+     * @default true
      */
     includeUnlisted?: boolean,
     /**
-     * Default 10.
+     * Number of items to return per page.
+     * @minimum 1
+     * @maximum 100
+     * @default 10
      */
     size?: number,
     /**
-     * Default 0.
+     * Specifies the page number to return.
+     * @minimum 1
+     * @default 1
      */
-    offset?: number,
+    page?: number,
 };
 type GetStackItemsResponse = {
     publications: string[],

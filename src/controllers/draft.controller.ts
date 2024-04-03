@@ -23,8 +23,10 @@ const MAX_FILE_SIZE_MB = 2048;
 export const draft = {
     baseRoute: '/drafts',
     /**
-     * Create a new Draft. The document will be uploaded in a separate step.
-     * @param draft
+     * Create a new Draft.
+     * - Creates a new draft with the given data.
+     * - The document will be uploaded in a separate step.
+     * @param draft The data to create the draft with.
      * @param abortController
      */
     async createNewDraft(
@@ -55,7 +57,8 @@ export const draft = {
     },
     /**
      * Get a Draft by slug.
-     * @param slug 
+     * - Retrieves a draft by its slug.
+     * @param slug The unique identifier of the draft to retrieve.
      * @param abortController
      */
     async getDraftBySlug(
@@ -84,8 +87,9 @@ export const draft = {
         }
     },
     /**
-     * Delete a Draft by slug.
-     * @param slug 
+     * Delete a Draft by slug
+     * - Deletes a draft by its slug.
+     * @param slug The unique identifier of the draft to delete.
      */
     async deleteDraftBySlug(
         slug: string,
@@ -112,9 +116,12 @@ export const draft = {
         }
     },
     /**
-     * Update a Draft by slug. The document will be uploaded in a separate step.
-     * @param slug 
-     * @param draft 
+     * Update a Draft by slug.
+     * - Updates a draft with the given data based on the slug.
+     * - The fields `fileUrl` or `info` must be provided.
+     * - If `fileUrl` is provided, the `confirmCopyright` field must be set to `true`.
+     * @param slug The unique identifier of the draft to update.
+     * @param draft The data to update the draft with.
      * @param abortController
      */
     async updateDraftBySlug(
@@ -145,10 +152,12 @@ export const draft = {
         }
     },
     /**
-     * Upload a document to a Draft by slug. The document will be converted to a publication in a separate step.
-     * @param slug 
-     * @param document 
-     * @param progressCallback 
+     * Upload a document to a Draft by slug.
+     * - Uploads a document to a draft by its slug.
+     * - The document will be converted to a publication in a separate step.
+     * @param slug The unique identifier of the draft to upload.
+     * @param document The file data to upload.
+     * @param progressCallback A callback function to track the upload progress.
      * @param abortController
      */
     async uploadDocumentToDraftBySlug(
@@ -198,11 +207,14 @@ export const draft = {
         }
     },
     /**
-     * Publish a Draft by slug. Creates a new Publication (see /publications) If this is the first publish for the document, the desiredName properties will be used to hint the final document page URL: issuu.com/{username}/docs/{desiredName}. 
-     * If the user already have a document page with such an URL, a random string will be used as suffix.
-     * If the document has already been published before, the desiredName will be ignored. It will also be ignored for team documents.
-     * @param slug 
-     * @param options 
+     * Publish a Draft by slug.
+     * - Creates a new Publication (see /publications)
+     * - If this is the first publish for the document, the desiredName properties will be used to hint the final document page URL: issuu.com/{username}/docs/{desiredName}. 
+     * - If the user already have a document page with such an URL, a random string will be used as suffix.
+     * - If the document has already been published before, the desiredName will be ignored. It will also be ignored for team documents.
+     * - It will also be ignored for team documents.
+     * @param slug The unique identifier of the draft to publish.
+     * @param options The desired name for the publication.
      * @param abortController
      */
     async publishDraftBySlug(
@@ -237,11 +249,11 @@ export const draft = {
     },
     /**
      * Create a new Draft, upload a document to it, and then publish it. 
-     * This is a convenience function that wraps the createNewDraft, uploadDocumentToDraftBySlug, and publishDraftBySlug functions.
-     * @param draft 
-     * @param document 
-     * @param progressCallback 
-     * @param options 
+     * - This is a convenience function that wraps the createNewDraft, uploadDocumentToDraftBySlug, and publishDraftBySlug functions.
+     * @param draft The data to create the draft with.
+     * @param document The file data to upload.
+     * @param progressCallback A callback function to track the upload progress.
+     * @param options The desired name for the publication.
      * @param abortController
      */
     async createAndUploadDraft(

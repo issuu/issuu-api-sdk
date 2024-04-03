@@ -16,7 +16,8 @@ export const publication = {
     baseRoute: '/publications',
     /**
      * Get a Publication by slug.
-     * @param slug 
+     * - Retrieves a specific publication based on its unique slug identifier.
+     * @param slug The unique identifier of the publication to retrieve.
      * @param abortController
      */
     async getPublicationBySlug(
@@ -46,7 +47,8 @@ export const publication = {
     },
     /**
      * Delete a Publication by slug.
-     * @param slug 
+     * - Deletes a specific publication based on its unique identifier.
+     * @param slug The unique identifier of the publication to delete.
      * @param abortController
      */
     async deletePublicationBySlug(
@@ -74,9 +76,14 @@ export const publication = {
         }
     },
     /**
-     * Update a Publication by slug.
-     * @param slug 
-     * @param publication 
+     * Get Publication assets by slug
+     * - Retrieves a list of assets associated with a specific publication based on its unique identifier.
+     * @param slug The unique identifier of the publication to delete.
+     * @param assetType The type of asset to retrieve.
+     * @param size The number of assets to retrieve.
+     * @param page The page number of assets to retrieve.
+     * @param documentPageNumber The page number of the document to retrieve.
+     * @param continuation The continuation token to retrieve the next page of assets.
      * @param abortController
      */
     async getPublicationAssetsBySlug(
@@ -120,8 +127,10 @@ export const publication = {
     },
     /**
      * Get a Publication's fullscreen share link by slug.
-     * @param slug 
-     * @param options 
+     * - Retrieves the fullscreen share link for a specific publication based on its unique identifier.
+     * - You can customize the fullscreen share link by providing the settings for the link.
+     * @param slug The unique identifier of the publication to retrieve.
+     * @param options The settings for the fullscreen share link.
      * @param abortController
      */
     async getPublicationFullscreenShareBySlug(
@@ -152,8 +161,9 @@ export const publication = {
         }
     },
     /**
-     * Get a Publication's reader share link by slug.
-     * @param slug 
+     * Get Publication Reader Share URL by slug
+     * - Retrieves the reader share link for a specific publication based on its unique identifier.
+     * @param slug The unique identifier of the publication to retrieve.
      * @param abortController
      */
     async getPublicationReaderShareBySlug(
@@ -182,9 +192,11 @@ export const publication = {
         }
     },
     /**
-     * Get a Publication's QR code share link by slug.
-     * @param slug 
-     * @param options 
+     * Get Publication QRCode share by slug
+     * - Retrieves the QR code share link for a specific publication based on its unique identifier.
+     * - You can customize the QR code share link by providing the settings for the link.
+     * @param slug The unique identifier of the publication to retrieve.
+     * @param options The settings for the QR code share link.
      * @param abortController
      */
     async getPublicationQRCodeShareBySlug(
@@ -215,9 +227,11 @@ export const publication = {
         }
     },
     /**
-     * Get a Publication's embed code by slug.
-     * @param slug 
-     * @param options 
+     * Get Publication Embed code by slug
+     * - Retrieves the embed code for a specific publication based on its unique identifier.
+     * - You can customize the embed code by providing the settings for the code.
+     * @param slug The unique identifier of the publication to retrieve.
+     * @param options The settings for the embed code.
      * @param abortController
      */
     async getPublicationEmbedCodeBySlug(

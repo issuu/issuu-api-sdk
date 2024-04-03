@@ -7,6 +7,10 @@ type GetPublicationBySlugResult = CreateNewDraftResponse & {
     state: 'DRAFT' | 'PUBLISHED' | 'SCHEDULED' | 'UNPUBLISHED' | 'QUARANTINED',
 };
 
+type Link = {
+    href: string,
+};
+
 type GetPublicationAssetsBySlugResult1 = {
     assets: {
         text: {
@@ -30,9 +34,9 @@ type GetPublicationAssetsBySlugResult2 = {
 type GetPublicationAssetsBySlugResult = {
     results: (GetPublicationAssetsBySlugResult1 | GetPublicationAssetsBySlugResult2)[],
     links: {
-        [key: string]: {
-            href: string
-        },
+        next?: Link;
+        self?: Link;
+        previous?: Link;
     },
     count?: number,
     pageSize: number,

@@ -13,8 +13,10 @@ import { AxiosError } from 'axios';
 export const stack = {
     baseRoute: '/stacks',
     /**
-     * Create a new Stack.
-     * @param stack 
+     * Create a new Stack
+     * - Creates a new stack with the provided data.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * @param stack Stack data to create.
      * @param abortController
      */
     async createNewStack(
@@ -45,7 +47,9 @@ export const stack = {
     },
     /**
      * Get a Stack by ID.
-     * @param stackId 
+     * - Retrieves the stack data based on the provided stack ID.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * @param stackId The unique identifier of the stack to retrieve.
      * @param abortController
      */
     async getStack(
@@ -75,7 +79,9 @@ export const stack = {
     },
     /**
      * Delete a Stack by ID.
-     * @param stackId 
+     * - Deletes the stack based on the provided stack ID.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * @param stackId The unique identifier of the stack to delete.
      * @param abortController
      */
     async deleteStack(
@@ -104,8 +110,10 @@ export const stack = {
     },
     /**
      * Update a Stack by ID.
-     * @param stackId 
-     * @param stack
+     * - Updates the stack data based on the provided stack ID and data.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * @param stackId The unique identifier of the stack to update.
+     * @param stack Stack data to update.
      * @param abortController
      */
     async updateStack(
@@ -137,8 +145,10 @@ export const stack = {
     },
     /**
      * List all items in a Stack.
-     * @param stackId 
-     * @param options 
+     * - Retrieves a list of slugs of the stack items paginated by the provided parameters.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * @param stackId The unique identifier of the stack to retrieve.
+     * @param options Options to filter the items.
      * @param abortController
      */
     async getStackItems(
@@ -172,8 +182,11 @@ export const stack = {
     },
     /**
      * Add an item to a Stack.
-     * @param stackId 
-     * @param slug 
+     * - Adds a document to a stack based on the provided stack ID and document slug.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * - Only published documents can be added to a stack.
+     * @param stackId The unique identifier of the stack to add the document to.
+     * @param slug The slug of the document to add to the stack.
      * @param abortController
      */
     async addStackItem(
@@ -204,8 +217,10 @@ export const stack = {
     },
     /**
      * Remove an item from a Stack.
-     * @param stackId 
-     * @param slug 
+     * - Removes a document from a stack based on the provided stack ID and document slug.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * @param stackId The unique identifier of the stack to remove the document from.
+     * @param slug The slug of the document to remove from the stack.
      * @param abortController
      */
     async removeStackItem(

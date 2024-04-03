@@ -12,7 +12,8 @@ import { api } from "../services/api";
 export const user = {
     baseRoute: '/user',
     /**
-     * List all Drafts
+     * List Drafts:
+     * - Retrieves a list of drafts paginated by the given parameters.
      * @param q Regular expression to apply to titles and descriptions
      * @param page Number of page to return. Default: 1
      * @param size How many documents to return. Default: 10
@@ -50,7 +51,8 @@ export const user = {
     },
     /**
      * List all Publications
-     * @param q Regular expression to apply to titles and descriptions
+     * - Retrieves a list of publications paginated by the given parameters.
+     * @param q A regular expression that is applied to the titles and descriptions of the documents and returns only the documents that match the expression.
      * @param state Controls whether to return only document in the specified state. Default: ALL
      * @param page Number of page to return. Default: 1
      * @param size How many documents to return. Default: 10
@@ -89,10 +91,12 @@ export const user = {
         }
     },
     /**
-     * List all stacks
-     * @param showUnlisted Show unlisted stacks. Default: false
-     * @param page Number of page to return. Default: 1
-     * @param size How many stacks to return. Default: 10
+     * List Stacks
+     * - Retrieves a list of stacks paginated by the provided parameters.
+     * - If the user is a teams user, an error will be thrown as teams doesn't support stacks.
+     * @param showUnlisted Include unlisted stacks in the list of stacks. Default: false
+     * @param page Specifies the page number to return. Default: 1
+     * @param size Determines the number of stacks to return per page. Default: 10
      * @param abortController
      */
     async getMyStacks(
@@ -126,9 +130,10 @@ export const user = {
         }
     },
     /**
-     * List all stats for all publications or filter by query parameter
+     * Get Stats
+     * - List all stats for all publications or for a specific publication
      * @param dateRange Default maxTime
-     * @param slug 
+     * @param slug The slug of the document to get the stats for. If not provided, the stats for all documents will be returned.
      * @param abortController
      */
     async getMyStats(
@@ -160,7 +165,9 @@ export const user = {
         }
     },
     /**
-     * Profile images usually have a thumbnail and large fields but those aren't mandatory
+     * Get User Profile
+     * - Get the user's profile information by the authenticated user.
+     * - Profile images usually have a thumbnail and large fields but those aren't mandatory
      * @param abortController
      */
     async getMyProfile(
@@ -187,7 +194,9 @@ export const user = {
         }
     },
     /**
-     * Get all features for the user
+     * Get User Features
+     * - Get the user's features by the authenticated user.
+     * - The response includes the user's features like fullscreenShare, download, detectedLinks, publishedDocumentLimitLeft, unlistedDocumentLimitLeft, pageUploadLimit, and sizeUploadLimitMb.
      * @param abortController
      */
     async getMyFeatures(
