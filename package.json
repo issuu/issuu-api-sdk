@@ -1,0 +1,21 @@
+{
+    "name": "issuu-sdk",
+    "version": "1.0.0",
+    "type": "module",
+    "license": "MIT",
+    "scripts": {
+        "test": "jest user.test.ts; jest draft.test.ts; jest publication.test.ts; jest stack.test.ts"
+    },
+    "dependencies": {
+        "axios": "^1.6.8",
+        "dotenv": "^16.4.5"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.11.30",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.1.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.3"
+    }
+}
