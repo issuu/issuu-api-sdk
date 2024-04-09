@@ -179,7 +179,9 @@ describe('Get publication embed code by slug', () => {
                 height: 100,
                 hideIssuuLogo: false,
                 hideShareButton: true,
-                showOtherPublications: true
+                showOtherPublications: true,
+                bgColor: '#891292',
+                fullScreenShareBgColor: '#232211'
             });
 
             expect(result).toBeDefined();

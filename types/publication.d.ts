@@ -131,6 +131,14 @@ type GetPublicationEmbedCodeBySlugRequest = {
      * Default false.
      */
     showOtherPublications?: boolean,
+    /**
+     * Determines the background color (hex) of the embed.
+     */
+    bgColor?: string,
+    /**
+     * Determines the background color (hex) of the fullscreen share.
+     */
+    fullScreenShareBgColor?: string,
 };
 type GetPublicationEmbedCodeBySlugResult = {
     embed: string,
