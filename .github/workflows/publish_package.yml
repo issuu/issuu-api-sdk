@@ -21,7 +21,11 @@ jobs:
           ISSUU_TOKEN: ${{ secrets.ISSUU_TOKEN }}
         run: npm test
 
-      - name: Publish Package
-        run: npm publish --access restricted
+      - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
+
+      - name: Publish Package
+        run: npm publish --access restricted
+
