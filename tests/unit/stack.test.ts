@@ -20,21 +20,14 @@ const new_draft: CreateNewDraftRequest = {
 
 let slug: string, stack_id: string;
 
-beforeEach(async () => {
-    await new Promise((r) => setTimeout(r, 3000));
-});
-
-describe('Stack and Draft', () => {
-
-    it('token should be defined', () => {
+describe('Stack endpoints', () => {    
+    it('should test all stack endpoints', async () => {
         expect(issuu_token).toBeDefined();
-    });
 
-    it('should create a new draft', async () => {
         try {
             const draft_data = await draft.createNewDraft(new_draft);
             slug = draft_data.slug;
-
+    
             expect(draft_data).toBeDefined();
             expect(draft_data.slug).toBeDefined();
             expect(draft_data.owner).toBeDefined();
@@ -42,16 +35,14 @@ describe('Stack and Draft', () => {
             expect(draft_data.fileInfo).toBeDefined();
             expect(draft_data.location).toBeDefined();
             expect(draft_data.created).toBeDefined();
-
+    
             expect(draft_data.state).toBeDefined();
             expect(draft_data.state).toBe('DRAFT');
         } catch (error) {
             console.error('Error creating new draft:', error);
             throw error;
         }
-    });
-
-    it('should publish the draft', async () => {
+    
         let is_converted = false;
         while (!is_converted) {
             const found = await draft.getDraftBySlug(slug);
@@ -59,18 +50,16 @@ describe('Stack and Draft', () => {
                 is_converted = true;
             }
         }
-
+    
         try {
             await draft.publishDraftBySlug(slug);
-            await new Promise((r) => setTimeout(r, 3000));
         } catch (error: any) {
             console.error('Error publishing draft:', error.response.data);
             throw error;
         }
-    });
 
-    it('should create a new stack', async () => {
         try {
+            await new Promise((r) => setTimeout(r, 2000));
             const new_stack: CreateNewStackRequest = {
                 accessType: 'PUBLIC',
                 description: 'This is a test stack',
@@ -83,9 +72,7 @@ describe('Stack and Draft', () => {
             console.error('Error creating new stack:', error);
             throw error;
         }
-    });
 
-    it('should get the stack by id', async () => {
         try {
             const found_stack = await stack.getStack(stack_id);
 
@@ -96,9 +83,40 @@ describe('Stack and Draft', () => {
             console.error('Error getting stack by id:', error);
             throw error;
         }
-    });
 
-    it('should update the stack', async () => {
+        try {
+            let is_added = false,
+                items: GetStackItemsResponse = await stack.getStackItems(stack_id, { includeUnlisted: true });
+
+            while (!is_added) {
+                try {
+                    await new Promise((r) => setTimeout(r, 2000));
+                    await stack.addStackItem(stack_id, slug);
+                } catch (error: any) {}
+                items = await stack.getStackItems(stack_id, { includeUnlisted: true });
+                if (items.results?.length > 0) {
+                    is_added = true;
+                }
+            }
+
+            expect(items).toBeDefined();
+            expect(items.results).toBeDefined();
+            expect(items.pageSize).toBeDefined();
+
+            expect(items.results?.length).toBeGreaterThan(0);
+            expect(items.pageSize).toBeGreaterThan(0);
+        } catch (error: any) {
+            console.error('Error adding stack item:', error);
+            throw error;
+        }
+
+        try {
+            await stack.removeStackItem(stack_id, slug);
+        } catch (error) {
+            console.error('Error removing stack item:', error);
+            throw error;
+        }
+
         try {
             const updated_stack = await stack.updateStack(stack_id, {
                 accessType: 'UNLISTED',
@@ -119,47 +137,14 @@ describe('Stack and Draft', () => {
             console.error('Error updating stack:', error);
             throw error;
         }
-    });
 
-    it('should add, get and remove a stack item', async () => {
-        try {
-            await stack.addStackItem(stack_id, slug);
-            try {
-                let items: GetStackItemsResponse = await stack.getStackItems(stack_id, { includeUnlisted: true });
-
-                expect(items).toBeDefined();
-                expect(items.results).toBeDefined();
-                expect(items.pageSize).toBeDefined();
-    
-                expect(items.results?.length).toBeGreaterThan(0);
-                expect(items.pageSize).toBeGreaterThan(0);
-            } catch (error: any) {
-                console.error('Error getting stack items:', error?.response?.data);
-                throw error;
-            }
-
-            try {
-                await stack.removeStackItem(stack_id, slug);
-            } catch (error) {
-                console.error('Error removing stack item:', error);
-                throw error;
-            }
-        } catch (error: any) {
-            console.error('Error adding stack item:', error);
-            throw error;
-        }
-    });
-
-    it('should delete the stack', async () => {
         try {
             await stack.deleteStack(stack_id);
         } catch (error) {
             console.error('Error deleting stack:', error);
             throw error;
         }
-    });
 
-    it('should delete the publication', async () => {
         try {
             await publication.deletePublicationBySlug(slug);
         } catch (error) {
