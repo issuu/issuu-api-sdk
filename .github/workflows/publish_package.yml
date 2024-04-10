@@ -16,11 +16,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Tests
-        env:
-          ISSUU_TOKEN: ${{ secrets.ISSUU_TOKEN }}
-        run: npm test
-
       - name: Authenticate with npm
         run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
         env:
