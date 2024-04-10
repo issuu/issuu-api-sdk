@@ -14,7 +14,6 @@ const new_draft: CreateNewDraftRequest = {
         type: 'book',
         showDetectedLinks: true,
         downloadable: true,
-        originalPublishDate: '2021-10-01',
         scheduledTime: undefined
     }
 };
@@ -131,11 +130,11 @@ describe('Add, Get and Remove stack item', () => {
                 let items: GetStackItemsResponse = await stack.getStackItems(stack_id, { includeUnlisted: true });
 
                 expect(items).toBeDefined();
-                expect(items.publications).toBeDefined();
-                expect(items.count).toBeDefined();
+                expect(items.results).toBeDefined();
+                expect(items.pageSize).toBeDefined();
     
-                expect(items.publications?.length).toBeGreaterThan(0);
-                expect(items.count).toBeGreaterThan(0);
+                expect(items.results?.length).toBeGreaterThan(0);
+                expect(items.pageSize).toBeGreaterThan(0);
             } catch (error: any) {
                 console.error('Error getting stack items:', error?.response?.data);
                 throw error;
