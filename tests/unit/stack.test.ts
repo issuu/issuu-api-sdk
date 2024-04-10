@@ -21,7 +21,7 @@ const new_draft: CreateNewDraftRequest = {
 let slug: string, stack_id: string;
 
 beforeEach(async () => {
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 3000));
 });
 
 describe('Stack and Draft', () => {
@@ -62,7 +62,7 @@ describe('Stack and Draft', () => {
 
         try {
             await draft.publishDraftBySlug(slug);
-            await new Promise((r) => setTimeout(r, 2000));
+            await new Promise((r) => setTimeout(r, 3000));
         } catch (error: any) {
             console.error('Error publishing draft:', error.response.data);
             throw error;

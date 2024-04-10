@@ -23,7 +23,7 @@ const new_draft: CreateNewDraftRequest = {
 let draft_data: CreateNewDraftResponse;
 
 beforeEach(async () => {
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 3000));
 });
 
 describe('Create a normal draft', () => {

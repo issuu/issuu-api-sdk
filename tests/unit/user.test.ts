@@ -20,7 +20,7 @@ const issuu_token: string = process.env.ISSUU_TOKEN!;
 const { draft, user, stack, publication } = IssuuSDK(issuu_token);
 
 beforeEach(async () => {
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 3000));
 });
 
 let slug_draft: string, slug_publication: string, stack_id: string;

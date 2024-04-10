@@ -20,7 +20,7 @@ const new_draft: CreateNewDraftRequest = {
 };
 
 beforeEach(async () => {
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 3000));
 });
 
 let slug: string;
