@@ -20,7 +20,7 @@ const new_draft: CreateNewDraftRequest = {
 };
 
 beforeEach(async () => {
-    await new Promise((r) => setTimeout(r, 3000));
+    await new Promise((r) => setTimeout(r, 5000));
 });
 
 let slug: string;
@@ -135,12 +135,12 @@ describe('Delete a draft by slug', () => {
         try {
             await draft.deleteDraftBySlug(slug);
 
-            try {
-                const found = await draft.getDraftBySlug(slug);
-                expect(found).toBeUndefined();
-            } catch (error: any) {
-                expect(error?.status).toBe(404);
-            }
+            expect(draft.getDraftBySlug(slug)).rejects.toStrictEqual({
+                "data": {
+                    "message": "Not Found"
+                },
+                "status": 404,
+            });
         }
         catch (error) {
             console.error('Error deleting draft by slug:', error);
