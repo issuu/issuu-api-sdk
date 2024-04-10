@@ -19,6 +19,10 @@ const new_draft: CreateNewDraftRequest = {
 const issuu_token: string = process.env.ISSUU_TOKEN!;
 const { draft, user, stack, publication } = IssuuSDK(issuu_token);
 
+beforeEach(async () => {
+    await new Promise((r) => setTimeout(r, 2000));
+});
+
 let slug_draft: string, slug_publication: string, stack_id: string;
 describe('Create a draft', () => {
     it('token should be defined', () => {

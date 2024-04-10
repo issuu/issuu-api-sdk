@@ -19,6 +19,10 @@ const new_draft: CreateNewDraftRequest = {
     }
 };
 
+beforeEach(async () => {
+    await new Promise((r) => setTimeout(r, 2000));
+});
+
 let slug: string;
 describe('Create a normal draft', () => {
     it('token should be defined', () => {

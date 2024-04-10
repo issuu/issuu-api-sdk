@@ -20,10 +20,11 @@ const new_draft: CreateNewDraftRequest = {
 
 let slug: string, stack_id: string;
 
+beforeEach(async () => {
+    await new Promise((r) => setTimeout(r, 2000));
+});
+
 describe('Stack and Draft', () => {
-    beforeEach(async () => {
-        await new Promise((r) => setTimeout(r, 2000));
-    });
 
     it('token should be defined', () => {
         expect(issuu_token).toBeDefined();

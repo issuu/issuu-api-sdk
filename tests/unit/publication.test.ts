@@ -22,6 +22,10 @@ const new_draft: CreateNewDraftRequest = {
 
 let draft_data: CreateNewDraftResponse;
 
+beforeEach(async () => {
+    await new Promise((r) => setTimeout(r, 2000));
+});
+
 describe('Create a normal draft', () => {
     it('token should be defined', () => {
         expect(issuu_token).toBeDefined();
