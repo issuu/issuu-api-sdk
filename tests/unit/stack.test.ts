@@ -20,7 +20,7 @@ const new_draft: CreateNewDraftRequest = {
 
 let slug: string, stack_id: string;
 
-describe('Create a normal publication', () => {
+describe('Stack and Draft', () => {
     it('token should be defined', () => {
         expect(issuu_token).toBeDefined();
     });
@@ -57,14 +57,13 @@ describe('Create a normal publication', () => {
 
         try {
             await draft.publishDraftBySlug(slug);
+            await new Promise((r) => setTimeout(r, 2000));
         } catch (error: any) {
             console.error('Error publishing draft:', error.response.data);
             throw error;
         }
     });
-});
 
-describe('Create new stack', () => {
     it('should create a new stack', async () => {
         try {
             const new_stack: CreateNewStackRequest = {
@@ -80,9 +79,7 @@ describe('Create new stack', () => {
             throw error;
         }
     });
-});
 
-describe('Get stack by id', () => {
     it('should get the stack by id', async () => {
         try {
             const found_stack = await stack.getStack(stack_id);
@@ -95,9 +92,7 @@ describe('Get stack by id', () => {
             throw error;
         }
     });
-});
 
-describe('Update stack', () => {
     it('should update the stack', async () => {
         try {
             const updated_stack = await stack.updateStack(stack_id, {
@@ -120,9 +115,7 @@ describe('Update stack', () => {
             throw error;
         }
     });
-});
 
-describe('Add, Get and Remove stack item', () => {
     it('should add, get and remove a stack item', async () => {
         try {
             await stack.addStackItem(stack_id, slug);
@@ -151,9 +144,7 @@ describe('Add, Get and Remove stack item', () => {
             throw error;
         }
     });
-});
 
-describe('Delete stack', () => {
     it('should delete the stack', async () => {
         try {
             await stack.deleteStack(stack_id);
@@ -162,9 +153,7 @@ describe('Delete stack', () => {
             throw error;
         }
     });
-});
 
-describe('Delete publication', () => {
     it('should delete the publication', async () => {
         try {
             await publication.deletePublicationBySlug(slug);
