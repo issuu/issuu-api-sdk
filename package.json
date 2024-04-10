@@ -1,10 +1,10 @@
 {
-    "name": "issuu-sdk",
-    "version": "1.0.0",
+    "name": "@issuu/issuu-api-sdk",
+    "version": "0.0.1",
     "type": "module",
     "license": "MIT",
     "scripts": {
-        "test": "jest user.test.ts; jest draft.test.ts; jest publication.test.ts; jest stack.test.ts"
+        "test": "jest user.test.ts; sleep 10s; jest draft.test.ts; sleep 10s; jest publication.test.ts; sleep 10s; jest stack.test.ts"
     },
     "dependencies": {
         "axios": "^1.6.8",

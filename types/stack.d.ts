@@ -1,5 +1,9 @@
 type StackAccessTypes = 'PUBLIC' | 'UNLISTED';
 
+type Link = {
+    href: string,
+};
+
 type CreateNewStackRequest = {
     accessType: StackAccessTypes,
     description: string,
@@ -39,8 +43,14 @@ type GetStackItemsRequest = {
     page?: number,
 };
 type GetStackItemsResponse = {
-    publications: string[],
-    count: number
+    results: string[],
+    count?: number,
+    pageSize: number,
+    links: {
+        next?: Link,
+        previous?: Link,
+        self?: Link,
+    },
 };
 
 export type {
