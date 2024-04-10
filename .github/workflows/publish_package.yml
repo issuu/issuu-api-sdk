@@ -1,0 +1,27 @@
+name: Publish npm Package and Run Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        env:
+          ISSUU_TOKEN: ${{ secrets.ISSUU_TOKEN }}
+        run: npm test
+
+      - name: Publish Package
+        run: npm publish --access restricted
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
