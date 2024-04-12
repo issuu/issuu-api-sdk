@@ -22,5 +22,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_CI_TOKEN }}
 
       - name: Publish Package
-        run: npm publish
+        run: npm publish --access public
 
