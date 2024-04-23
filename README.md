@@ -22,13 +22,15 @@ IssuuSDK is a library that provides a simple way to interact with the Issuu API.
 To install the project, run the following command:
 
 ```sh
-yarn add issuu-sdk # not yet available
+npm i @issuu/issuu-api-sdk
+# or
+yarn add @issuu/issuu-api-sdk
 ```
 
 ## Usage
 
 ```typescript
-import IssuuSDK from 'issuu-sdk';
+import IssuuSDK from '@issuu/issuu-api-sdk';
 const issuu_instance = IssuuSDK('your_token');
 
 // using objects
