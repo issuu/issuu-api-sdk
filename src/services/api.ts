@@ -1,5 +1,5 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
-const TEST_URL = process.env.ISSUU_API_SDK_URL;
+const TEST_URL = process?.env?.ISSUU_API_SDK_URL;
 
 export const api = axios.create({
     baseURL: TEST_URL || "https://api.issuu.com/v2/",
