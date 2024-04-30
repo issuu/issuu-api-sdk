@@ -4,7 +4,14 @@ import { stack } from "./src/controllers/stack.controller";
 import { user } from "./src/controllers/user.controller";
 import { setToken } from "./src/services/api";
 
-const lib = {
+export interface Issuu {
+    draft: typeof draft;
+    publication: typeof publication;
+    stack: typeof stack;
+    user: typeof user;
+}
+
+const lib: Issuu = {
     draft,
     publication,
     stack,
@@ -15,7 +22,7 @@ const lib = {
  * Initialize the Issuu API client.
  * @param token 
  */
-const Issuu = (token: string) => {
+const Issuu = (token: string): Issuu => {
     setToken(token);
     return lib;
 };
