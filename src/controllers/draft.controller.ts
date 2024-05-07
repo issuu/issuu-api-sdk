@@ -13,6 +13,7 @@ import {
     UploadDocumentToDraftBySlugResponse,
 } from '../../types/draft';
 import { api } from '../services/api';
+import { publication } from './publication.controller';
 
 const getBlobSizeInMB = (blob: Blob) => {
     const blobSize = blob.size / (1024 * 1024);
@@ -263,14 +264,31 @@ export const draft = {
         progressCallback?: (progress: number) => void,
         options?: PublishDraftBySlugRequest,
         abortController?: AbortController,
-    ): Promise<CreateAndPublishDraftResponse>
+    ): Promise<CreateAndPublishDraftResponse | void>
     {
+        let newDraft: CreateNewDraftResponse, result: PublishDraftBySlugResponse, is_aborted = false;
         progressCallback?.(0);
+
+        // setup abort controller
+        if(abortController) {
+            abortController.signal.addEventListener('abort', async () => {
+                if(!newDraft) return;
+                else if(newDraft && !result) {
+                    await this.deleteDraftBySlug(newDraft.slug, abortController);
+                    is_aborted = true;
+                } else if(newDraft && result) {
+                    await publication.deletePublicationBySlug(result.slug, abortController);
+                    is_aborted = true;
+                }
+            });
+        }
+
         // Until 20%
-        const newDraft = await this.createNewDraft(draft, abortController);
+        newDraft = await this.createNewDraft(draft, abortController);
         progressCallback?.(20);
 
         // Until 70%
+        if(is_aborted) return progressCallback?.(100);
         await this.uploadDocumentToDraftBySlug(
             newDraft.slug,
             document, 
@@ -281,6 +299,7 @@ export const draft = {
         );
 
         // Until 80%
+        if(is_aborted) return progressCallback?.(100);
         let is_converted = false;
         while (!is_converted) {
             const found = await this.getDraftBySlug(newDraft.slug, abortController);
@@ -290,7 +309,7 @@ export const draft = {
         }
         progressCallback?.(80);
 
-        let result: PublishDraftBySlugResponse;
+        if(is_aborted) return progressCallback?.(100);
         if(publishAtTheEnd) {
             result = await this.publishDraftBySlug(
                 newDraft.slug,
@@ -300,6 +319,7 @@ export const draft = {
             // Until 100%
             progressCallback?.(100);
             
+            if(is_aborted) return progressCallback?.(100);
             // Return the result
             return {
                 ...result,
