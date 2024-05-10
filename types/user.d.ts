@@ -54,6 +54,8 @@ type GetMyFeaturesResult = {
     unlistedDocumentLimitLeft: number | 'unlimited',
     sizeUploadLimitMb: number | 'unlimited',
     pageUploadLimit: number | 'unlimited',
+    publishedDocumentLimit: number | 'unlimited';
+    unlistedDocumentLimit: number | 'unlimited';
 };
 
 export type {
