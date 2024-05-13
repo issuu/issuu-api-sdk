@@ -1,4 +1,4 @@
-import { CreateNewDraftResponse } from "./draft";
+import { CreateNewDraftResponse, DraftAccess, DraftType } from "./draft";
 
 /**
  * Represents a document. It is a discriminated union of DocumentDraft, DocumentPublished, DocumentScheduled, DocumentUnpublished and DocumentQuarantined structures. The discriminator is the state field.
