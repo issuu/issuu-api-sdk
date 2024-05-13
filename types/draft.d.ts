@@ -221,4 +221,6 @@ export type {
     UploadDocumentToDraftBySlugRequest,
     CreateAndPublishDraftResponse,
     PublishValidateError,
+    DraftAccess,
+    DraftType,
 };
