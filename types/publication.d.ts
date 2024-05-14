@@ -1,39 +1,10 @@
-import { DocumentType, Access, DraftStatus, Link, ImageFormat } from "./common";
-import { CreateNewDraftResponse } from "./draft";
+import { DocumentType, Access, DraftStatus, Link, ImageFormat, URLResult } from "./common";
+import { Document, DocumentInformation } from "./document";
 
 /**
  * Represents a document. It is a discriminated union of DocumentDraft, DocumentPublished, DocumentScheduled, DocumentUnpublished and DocumentQuarantined structures. The discriminator is the state field.
  */
-type GetPublicationBySlugResult = CreateNewDraftResponse & {
-    state: DraftStatus,
-    /**
-     * The identifier of the file that will be used in the next publish
-     */
-    file?: number,
-    /**
-     * PUBLIC documents, once published, will be made searcheable and will appear in streams, recommendations, etc. PRIVATE documents, once published, are only accessible from users that knows their URL.
-     */
-    access?: Access,
-    title?: string,
-    description?: string,
-    /**
-     * Set it to true to indicate that the document is a preview of a bigger content.
-     */
-    preview?: boolean,
-    type?: DocumentType,
-    /**
-     * When set to true, the conversion procedure will search for hypermedia links inside the document text.
-     */
-    showDetectedLinks?: boolean,
-    /**
-     * When set to true once published the readers will be allowed to download the original document.
-     */
-    downloadable?: boolean,
-    /**
-     * Set the original publish date field to indicate that a document was previously published, e.g. to import older issues of your magazine. Set it to null to clear the backDate.
-     */
-    originalPublishDate?: string,
-};
+interface GetPublicationBySlugResult extends DocumentInformation, Document {};
 
 type GetPublicationAssetsBySlugResult1 = {
     assets: {
@@ -64,10 +35,6 @@ type GetPublicationAssetsBySlugResult = {
     },
     count?: number,
     pageSize: number,
-};
-
-type URLResult = {
-    url: string,
 };
 
 type GetPublicationFullscreenShareBySlugRequest = {

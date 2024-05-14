@@ -1,9 +1,9 @@
 import { Limit, Link } from "./common";
-import { GetDraftBySlugResponse } from "./draft";
+import { Document } from "./document";
 import { GetStackResponse } from "./stack";
 
 type GetMyPublicationsResult = {
-    results: GetDraftBySlugResponse[],
+    results: Document[],
     links: {
         [key: string]: Link,
     },

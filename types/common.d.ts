@@ -17,6 +17,10 @@ type DraftStatus = 'DRAFT' | 'PUBLISHED' | 'SCHEDULED' | 'UNPUBLISHED' | 'QUARAN
 type StackAccessTypes = 'PUBLIC' | 'UNLISTED';
 // User
 type Limit = number | 'unlimited';
+// Publication
+type URLResult = {
+    url: string,
+};
 
 export type {
     Link,
@@ -30,4 +34,5 @@ export type {
     CoverAsset,
     ImageFormat,
     Limit,
+    URLResult,
 };
