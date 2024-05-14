@@ -1,10 +1,11 @@
-import { CreateNewDraftResponse, DraftAccess, DraftType } from "./draft";
+import { DraftType, DraftAccess, DraftStatus, Link, ImageFormat } from "./common";
+import { CreateNewDraftResponse } from "./draft";
 
 /**
  * Represents a document. It is a discriminated union of DocumentDraft, DocumentPublished, DocumentScheduled, DocumentUnpublished and DocumentQuarantined structures. The discriminator is the state field.
  */
 type GetPublicationBySlugResult = CreateNewDraftResponse & {
-    state: 'DRAFT' | 'PUBLISHED' | 'SCHEDULED' | 'UNPUBLISHED' | 'QUARANTINED',
+    state: DraftStatus,
     /**
      * The identifier of the file that will be used in the next publish
      */
@@ -32,10 +33,6 @@ type GetPublicationBySlugResult = CreateNewDraftResponse & {
      * Set the original publish date field to indicate that a document was previously published, e.g. to import older issues of your magazine. Set it to null to clear the backDate.
      */
     originalPublishDate?: string,
-};
-
-type Link = {
-    href: string,
 };
 
 type GetPublicationAssetsBySlugResult1 = {
@@ -122,7 +119,7 @@ type GetPublicationQRCodeShareBySlugRequest = {
     /**
      * The image format. Default PNG
      */
-    format: 'PNG' | 'SVG',
+    format: ImageFormat,
     /**
      * Settings for the fullscreen share link
      */
