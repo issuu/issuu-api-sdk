@@ -2,55 +2,55 @@ import { Limit, Link } from "./common";
 import { Document } from "./document";
 import { GetStackResponse } from "./stack";
 
-type GetMyPublicationsResult = {
-    results: Document[],
+interface GetMyPublicationsResult {
+    results: Document[];
     links: {
-        [key: string]: Link,
-    },
-    pageSize: number,
-    count?: number,
-};
+        [key: string]: Link;
+    };
+    pageSize: number;
+    count?: number;
+}
 
-type GetMyDraftsResult = GetMyPublicationsResult;
+interface GetMyDraftsResult extends GetMyPublicationsResult {}
 
-type GetMyStatsResult = {
-    averageTimeSpent: number,
-    clicks: number,
-    impressions: number,
-    reads: number,
-};
+interface GetMyStatsResult {
+    averageTimeSpent: number;
+    clicks: number;
+    impressions: number;
+    reads: number;
+}
 
-type GetMyProfileResult = {
-    userId: number,
-    username: string,
-    displayName: string,
-    ownerId: number,
-    ownerName?: string,
-    isTeams: boolean,
+interface GetMyProfileResult {
+    userId: number;
+    username: string;
+    displayName: string;
+    ownerId: number;
+    ownerName?: string;
+    isTeams: boolean;
     profileImages: {
-        large: string,
-        thumbnail: string,
-        [key: string]: string,
-    }
-};
+        large: string;
+        thumbnail: string;
+        [key: string]: string;
+    };
+}
 
-type GetMyStacksResult = {
+interface GetMyStacksResult {
     results: GetStackResponse[];
     links: {
-        [key: string]: Link,
-    },
-    pageSize: number,
-    count?: number,
-};
+        [key: string]: Link;
+    };
+    pageSize: number;
+    count?: number;
+}
 
-type GetMyFeaturesResult = {
-    fullscreenShare: boolean,
-    download: boolean,
-    detectedLinks: boolean,
-    publishedDocumentLimitLeft: Limit,
-    unlistedDocumentLimitLeft: Limit,
-    sizeUploadLimitMb: Limit,
-    pageUploadLimit: Limit,
+interface GetMyFeaturesResult {
+    fullscreenShare: boolean;
+    download: boolean;
+    detectedLinks: boolean;
+    publishedDocumentLimitLeft: Limit;
+    unlistedDocumentLimitLeft: Limit;
+    sizeUploadLimitMb: Limit;
+    pageUploadLimit: Limit;
     publishedDocumentLimit: Limit;
     unlistedDocumentLimit: Limit;
 };

@@ -6,134 +6,134 @@ import { Document, DocumentInformation } from "./document";
  */
 interface GetPublicationBySlugResult extends DocumentInformation, Document {};
 
-type GetPublicationAssetsBySlugResult1 = {
+interface GetPublicationAssetsBySlugResult1 {
     assets: {
         text: {
-            [key: string]: string
-        }
+            [key: string]: string;
+        };
         image: {
-            [key: string]: string
-        }
-    },
-    pageNumber: number,
-};
-type GetPublicationAssetsBySlugResult2 = {
+            [key: string]: string;
+        };
+    };
+    pageNumber: number;
+}
+interface GetPublicationAssetsBySlugResult2 {
     thumbnails: {
-        medium?: string,
-        large?: string,
-        small?: string,
-    },
-    pageImage: string
-    pageNumber: number
-};
-type GetPublicationAssetsBySlugResult = {
-    results: (GetPublicationAssetsBySlugResult1 | GetPublicationAssetsBySlugResult2)[],
+        medium?: string;
+        large?: string;
+        small?: string;
+    };
+    pageImage: string;
+    pageNumber: number;
+}
+interface GetPublicationAssetsBySlugResult {
+    results: (GetPublicationAssetsBySlugResult1 | GetPublicationAssetsBySlugResult2)[];
     links: {
         next?: Link;
         self?: Link;
         previous?: Link;
-    },
-    count?: number,
-    pageSize: number,
-};
+    };
+    count?: number;
+    pageSize: number;
+}
 
-type GetPublicationFullscreenShareBySlugRequest = {
+interface GetPublicationFullscreenShareBySlugRequest {
     /**
      * Start page of the shared link. Default 1.
      */
-    startPage?: number,
+    startPage?: number;
     /**
      * Page layout. Default double page.
      */
-    pageLayout?: 'double' | 'single',
+    pageLayout?: 'double' | 'single';
     /**
      * Instruct the reader to auto flip. Default false.
      */
-    autoflip?: boolean,
+    autoflip?: boolean;
     /**
      * Reader background color. Default empty.
      */
-    backgroundColor?: string,
+    backgroundColor?: string;
     /**
      * Custom logo location. Default empty.
      */
-    logoUrl?: string,
+    logoUrl?: string;
     /**
      * Custom background image location. Default empty.
      */
-    backgroundImageUrl?: string,
+    backgroundImageUrl?: string;
     /**
      * How to display the background image. Default top-left.
      */
-    backgroundImagePosition?: 'topLeft' | 'stretch',
+    backgroundImagePosition?: 'topLeft' | 'stretch';
     /**
      * Whether to show the publisher's other publications. Default false.
      */
-    showOtherPublications?: boolean,
+    showOtherPublications?: boolean;
     /**
      * Whether to hide the sharing options. Default false.
      */
-    hideShare?: boolean,
-};
-type GetPublicationFullscreenShareBySlugResult = URLResult;
+    hideShare?: boolean;
+}
+interface GetPublicationFullscreenShareBySlugResult extends URLResult {}
 
-type GetPublicationReaderShareBySlugResult = URLResult;
+interface GetPublicationReaderShareBySlugResult extends URLResult {}
 
 /**
  * Request to generate a QR code for the publication. Include fullscreenSettings if a QR code for a shareable fullscreen reader is desired. The returned URL is valid for 7 days.
  */
-type GetPublicationQRCodeShareBySlugRequest = {
+interface GetPublicationQRCodeShareBySlugRequest {
     /**
      * The image format. Default PNG
      */
-    format: ImageFormat,
+    format: ImageFormat;
     /**
      * Settings for the fullscreen share link
      */
-    fullscreenSettings: GetPublicationFullscreenShareBySlugRequest,
-};
-type GetPublicationQRCodeShareBySlugResult = {
-    qrCodeUrl: string,
-    pointedUrl: string
-};
+    fullscreenSettings: GetPublicationFullscreenShareBySlugRequest;
+}
+interface GetPublicationQRCodeShareBySlugResult {
+    qrCodeUrl: string;
+    pointedUrl: string;
+}
 
-type GetPublicationEmbedCodeBySlugRequest = {
+interface GetPublicationEmbedCodeBySlugRequest {
     /**
      * Default true.
      */
-    responsive?: boolean,
+    responsive?: boolean;
     /**
      * Default 100%.
      */
-    width?: number | string,
+    width?: number | string;
     /**
      * Default 100%.
      */
-    height?: number | string,
+    height?: number | string;
     /**
      * Default false.
      */
-    hideIssuuLogo?: boolean,
+    hideIssuuLogo?: boolean;
     /**
      * Default false.
      */
-    hideShareButton?: boolean,
+    hideShareButton?: boolean;
     /**
      * Default false.
      */
-    showOtherPublications?: boolean,
+    showOtherPublications?: boolean;
     /**
      * Determines the background color (hex) of the embed.
      */
-    bgColor?: string,
+    bgColor?: string;
     /**
      * Determines the background color (hex) of the fullscreen share.
      */
-    fullScreenShareBgColor?: string,
-};
-type GetPublicationEmbedCodeBySlugResult = {
-    embed: string,
-};
+    fullScreenShareBgColor?: string;
+}
+interface GetPublicationEmbedCodeBySlugResult {
+    embed: string;
+}
 
 export type {
     GetPublicationBySlugResult,
