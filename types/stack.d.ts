@@ -1,19 +1,15 @@
-type StackAccessTypes = 'PUBLIC' | 'UNLISTED';
-
-type Link = {
-    href: string,
-};
+import { Link, StackAccessTypes } from "./common";
 
 type CreateNewStackRequest = {
     accessType: StackAccessTypes,
     description: string,
     title: string
 };
-type CreateNewStackResponse = string
+type CreateNewStackResponse = string;
 
 type GetStackResponse = CreateNewStackRequest & {
     id: string
-}
+};
 
 type UpdateStackRequest = {
     accessType?: StackAccessTypes,

@@ -1,12 +1,11 @@
+import { Limit, Link } from "./common";
 import { GetDraftBySlugResponse } from "./draft";
 import { GetStackResponse } from "./stack";
 
 type GetMyPublicationsResult = {
     results: GetDraftBySlugResponse[],
     links: {
-        [key: string]: {
-            href: string
-        },
+        [key: string]: Link,
     },
     pageSize: number,
     count?: number,
@@ -38,9 +37,7 @@ type GetMyProfileResult = {
 type GetMyStacksResult = {
     results: GetStackResponse[];
     links: {
-        [key: string]: {
-            href: string
-        },
+        [key: string]: Link,
     },
     pageSize: number,
     count?: number,
@@ -50,12 +47,12 @@ type GetMyFeaturesResult = {
     fullscreenShare: boolean,
     download: boolean,
     detectedLinks: boolean,
-    publishedDocumentLimitLeft: number | 'unlimited',
-    unlistedDocumentLimitLeft: number | 'unlimited',
-    sizeUploadLimitMb: number | 'unlimited',
-    pageUploadLimit: number | 'unlimited',
-    publishedDocumentLimit: number | 'unlimited';
-    unlistedDocumentLimit: number | 'unlimited';
+    publishedDocumentLimitLeft: Limit,
+    unlistedDocumentLimitLeft: Limit,
+    sizeUploadLimitMb: Limit,
+    pageUploadLimit: Limit,
+    publishedDocumentLimit: Limit;
+    unlistedDocumentLimit: Limit;
 };
 
 export type {
