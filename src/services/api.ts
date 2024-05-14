@@ -1,8 +1,8 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
-const TEST_URL = process?.env?.ISSUU_API_SDK_URL;
+const CUSTOM_URL = typeof process === 'undefined' ? undefined : process?.env?.ISSUU_API_SDK_URL;
 
 export const api = axios.create({
-    baseURL: TEST_URL || "https://api.issuu.com/v2/",
+    baseURL: CUSTOM_URL || "https://api.issuu.com/v2/",
 });
 
 let token: string;
