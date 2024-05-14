@@ -1,7 +1,45 @@
-type DraftAccess = 'PUBLIC' | 'PRIVATE';
-type DraftType = 'editorial' | 'book' | 'promotional' | 'other';
-type DraftFileInfoType = 'UNKNOWN' | 'DOC' | 'ODP' | 'ODT' | 'PDF' | 'PPT' | 'RTF' | 'SXI' | 'SXW' | 'WPD' | 'EPUB' | 'MOBI';
-type DraftConversionStatus = 'DONE' | 'CONVERTING' | 'FAILED';
+import {
+    Access,
+    DocumentType,
+    DraftConversionStatus,
+    DocumentFileInfoType,
+    DraftStatus,
+    CoverAsset
+} from "./common";
+
+interface DocumentInformation {
+    /**
+     * The identifier of the file that will be used in the next publish
+     */
+    file?: number;
+    /**
+     * PUBLIC documents, once published, will be made searcheable and will appear in streams, recommendations, etc. PRIVATE documents, once published, are only accessible from users that knows their URL.
+     */
+    access?: Access;
+    title?: string;
+    description?: string;
+    /**
+     * Set it to true to indicate that the document is a preview of a bigger content.
+     */
+    preview?: boolean;
+    type?: DocumentType;
+    /**
+     * When set to true, the conversion procedure will search for hypermedia links inside the document text.
+     */
+    showDetectedLinks?: boolean;
+    /**
+     * When set to true once published the readers will be allowed to download the original document.
+     */
+    downloadable?: boolean;
+    /**
+     * Set the original publish date field to indicate that a document was previously published, e.g. to import older issues of your magazine. Set it to null to clear the backDate.
+     */
+    originalPublishDate?: string;
+    /**
+     * This field schedules the date for Publication, until then the document will be at SCHEDULED state.
+     */
+    scheduledTime?: string;
+}
 
 type CreateNewDraftRequest = {
     confirmCopyright?: boolean,
@@ -9,39 +47,7 @@ type CreateNewDraftRequest = {
     /**
      * Metadata used to create documents in draft state and update changes that will be reflected on the next publish
      */
-    info: {
-        /**
-         * The identifier of the file that will be used in the next publish
-         */
-        file?: number,
-        /**
-         * PUBLIC documents, once published, will be made searcheable and will appear in streams, recommendations, etc. PRIVATE documents, once published, are only accessible from users that knows their URL.
-         */
-        access?: DraftAccess,
-        title?: string,
-        description?: string,
-        /**
-         * Set it to true to indicate that the document is a preview of a bigger content.
-         */
-        preview?: boolean,
-        type?: DraftType,
-        /**
-         * When set to true, the conversion procedure will search for hypermedia links inside the document text.
-         */
-        showDetectedLinks?: boolean,
-        /**
-         * When set to true once published the readers will be allowed to download the original document.
-         */
-        downloadable?: boolean,
-        /**
-         * Set the original publish date field to indicate that a document was previously published, e.g. to import older issues of your magazine. Set it to null to clear the backDate.
-         */
-        originalPublishDate?: string,
-        /**
-         * This field schedules the date for Publication, until then the document will be at SCHEDULED state.
-         */
-        scheduledTime?: string
-    },
+    info: DocumentInformation
 };
 /**
  * A not-yet-published document.
@@ -57,25 +63,13 @@ type CreateNewDraftResponse =
      */
     owner: string,
     cover: {
-        small: {
-            url: string,
-            width: number,
-            height: number
-        },
-        medium: {
-            url: string,
-            width: number,
-            height: number
-        },
-        large: {
-            url: string,
-            width: number,
-            height: number
-        }
+        small: CoverAsset,
+        medium: CoverAsset,
+        large: CoverAsset,
     },
     fileInfo: {
         name: string,
-        type: DraftFileInfoType,
+        type: DocumentFileInfoType,
         size: number,
         pageCount: number,
         conversionStatus: DraftConversionStatus,
@@ -92,39 +86,7 @@ type CreateNewDraftResponse =
     /**
      * Changes to be apply on the next publish
      */
-    changes?: {
-        /**
-         * The identifier of the file that will be used in the next publish
-         */
-        file?: number,
-        /**
-         * PUBLIC documents, once published, will be made searcheable and will appear in streams, recommendations, etc. PRIVATE documents, once published, are only accessible from users that knows their URL.
-         */
-        access?: DraftAccess,
-        title?: string,
-        description?: string,
-        /**
-         * Set it to true to indicate that the document is a preview of a bigger content.
-         */
-        preview?: boolean,
-        type?: DraftType,
-        /**
-         * When set to true, the conversion procedure will search for hypermedia links inside the document text.
-         */
-        showDetectedLinks?: boolean,
-        /**
-         * When set to true once published the readers will be allowed to download the original document.
-         */
-        downloadable?: boolean,
-        /**
-         * Set the original publish date field to indicate that a document was previously published, e.g. to import older issues of your magazine. Set it to null to clear the backDate.
-         */
-        originalPublishDate?: string,
-        /**
-         * This field schedules the date for Publication, until then the document will be at SCHEDULED state.
-         */
-        scheduledTime?: string
-    },
+    changes?: DocumentInformation,
     /**
      * Draft created date
      */
@@ -135,45 +97,13 @@ type CreateNewDraftResponse =
  * Represents a document. It is a discriminated union of DocumentDraft, DocumentPublished, DocumentScheduled, DocumentUnpublished and DocumentQuarantined structures. The discriminator is the state field.
  */
 type GetDraftBySlugResponse = CreateNewDraftResponse & {
-    state: 'DRAFT' | 'PUBLISHED' | 'SCHEDULED' | 'UNPUBLISHED' | 'QUARANTINED'
+    state: DraftStatus
 };
 
 type UpdateDraftBySlugRequest = {
     confirmCopyright?: boolean,
     fileUrl?: string,
-    info?: {
-        /**
-         * The identifier of the file that will be used in the next publish
-         */
-        file?: number,
-        /**
-         * PUBLIC documents, once published, will be made searcheable and will appear in streams, recommendations, etc. PRIVATE documents, once published, are only accessible from users that knows their URL.
-         */
-        access?: DraftAccess,
-        title?: string,
-        description?: string,
-        /**
-         * Set it to true to indicate that the document is a preview of a bigger content.
-         */
-        preview?: boolean,
-        type?: DraftType,
-        /**
-         * When set to true, the conversion procedure will search for hypermedia links inside the document text.
-         */
-        showDetectedLinks?: boolean,
-        /**
-         * When set to true once published the readers will be allowed to download the original document.
-         */
-        downloadable?: boolean,
-        /**
-         * Set the original publish date field to indicate that a document was previously published, e.g. to import older issues of your magazine. Set it to null to clear the backDate.
-         */
-        originalPublishDate?: string,
-        /**
-         * This field schedules the date for Publication, until then the document will be at SCHEDULED state.
-         */
-        scheduledTime?: string
-    }
+    info?: DocumentInformation
 };
 type UpdateDraftBySlugResponse = CreateNewDraftResponse;
 
@@ -207,8 +137,6 @@ type PublishDraftBySlugResponse = {
 
 type CreateAndPublishDraftResponse = PublishDraftBySlugResponse | { slug: string };
 
-type PublishValidateError = 'file_too_big' | 'file_too_many_pages' | 'file_not_converted' | 'missing_license_download' | 'missing_license_scheduled_publishing' | 'missing_license_detected_links' | 'unknown' | 'unlisted_limit_exceeded' | 'missing_title' | 'missing_description' | 'missing_file' | 'missing_access' | 'incomplete_draft' | 'published_documents_limit_exceeded';
-
 export type {
     CreateNewDraftRequest,
     CreateNewDraftResponse,
@@ -221,6 +149,6 @@ export type {
     UploadDocumentToDraftBySlugRequest,
     CreateAndPublishDraftResponse,
     PublishValidateError,
-    DraftAccess,
-    DraftType,
+    Access as DraftAccess,
+    DocumentInformation as DraftInformation,
 };
