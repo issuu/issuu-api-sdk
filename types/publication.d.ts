@@ -1,4 +1,4 @@
-import { DraftType, DraftAccess, DraftStatus, Link, ImageFormat } from "./common";
+import { DocumentType, Access, DraftStatus, Link, ImageFormat } from "./common";
 import { CreateNewDraftResponse } from "./draft";
 
 /**
@@ -13,14 +13,14 @@ type GetPublicationBySlugResult = CreateNewDraftResponse & {
     /**
      * PUBLIC documents, once published, will be made searcheable and will appear in streams, recommendations, etc. PRIVATE documents, once published, are only accessible from users that knows their URL.
      */
-    access?: DraftAccess,
+    access?: Access,
     title?: string,
     description?: string,
     /**
      * Set it to true to indicate that the document is a preview of a bigger content.
      */
     preview?: boolean,
-    type?: DraftType,
+    type?: DocumentType,
     /**
      * When set to true, the conversion procedure will search for hypermedia links inside the document text.
      */
