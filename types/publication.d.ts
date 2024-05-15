@@ -1,172 +1,139 @@
-import { DocumentType, Access, DraftStatus, Link, ImageFormat } from "./common";
-import { CreateNewDraftResponse } from "./draft";
+import { DocumentType, Access, DocumentStatus, Link, ImageFormat, URLResult } from "./common";
+import { Document, DocumentInformation } from "./document";
 
 /**
  * Represents a document. It is a discriminated union of DocumentDraft, DocumentPublished, DocumentScheduled, DocumentUnpublished and DocumentQuarantined structures. The discriminator is the state field.
  */
-type GetPublicationBySlugResult = CreateNewDraftResponse & {
-    state: DraftStatus,
-    /**
-     * The identifier of the file that will be used in the next publish
-     */
-    file?: number,
-    /**
-     * PUBLIC documents, once published, will be made searcheable and will appear in streams, recommendations, etc. PRIVATE documents, once published, are only accessible from users that knows their URL.
-     */
-    access?: Access,
-    title?: string,
-    description?: string,
-    /**
-     * Set it to true to indicate that the document is a preview of a bigger content.
-     */
-    preview?: boolean,
-    type?: DocumentType,
-    /**
-     * When set to true, the conversion procedure will search for hypermedia links inside the document text.
-     */
-    showDetectedLinks?: boolean,
-    /**
-     * When set to true once published the readers will be allowed to download the original document.
-     */
-    downloadable?: boolean,
-    /**
-     * Set the original publish date field to indicate that a document was previously published, e.g. to import older issues of your magazine. Set it to null to clear the backDate.
-     */
-    originalPublishDate?: string,
-};
+interface GetPublicationBySlugResult extends DocumentInformation, Document {};
 
-type GetPublicationAssetsBySlugResult1 = {
+interface PublicationAssetsResult {
     assets: {
         text: {
-            [key: string]: string
-        }
+            [key: string]: string;
+        };
         image: {
-            [key: string]: string
-        }
-    },
-    pageNumber: number,
-};
-type GetPublicationAssetsBySlugResult2 = {
+            [key: string]: string;
+        };
+    };
+    pageNumber: number;
+}
+interface PublicationThumbnailsResult {
     thumbnails: {
-        medium?: string,
-        large?: string,
-        small?: string,
-    },
-    pageImage: string
-    pageNumber: number
-};
-type GetPublicationAssetsBySlugResult = {
-    results: (GetPublicationAssetsBySlugResult1 | GetPublicationAssetsBySlugResult2)[],
+        medium?: string;
+        large?: string;
+        small?: string;
+    };
+    pageImage: string;
+    pageNumber: number;
+}
+interface GetPublicationAssetsBySlugResult {
+    results: (PublicationAssetsResult | PublicationThumbnailsResult)[];
     links: {
         next?: Link;
         self?: Link;
         previous?: Link;
-    },
-    count?: number,
-    pageSize: number,
-};
+    };
+    count?: number;
+    pageSize: number;
+}
 
-type URLResult = {
-    url: string,
-};
-
-type GetPublicationFullscreenShareBySlugRequest = {
+interface GetPublicationFullscreenShareBySlugRequest {
     /**
      * Start page of the shared link. Default 1.
      */
-    startPage?: number,
+    startPage?: number;
     /**
      * Page layout. Default double page.
      */
-    pageLayout?: 'double' | 'single',
+    pageLayout?: 'double' | 'single';
     /**
      * Instruct the reader to auto flip. Default false.
      */
-    autoflip?: boolean,
+    autoflip?: boolean;
     /**
      * Reader background color. Default empty.
      */
-    backgroundColor?: string,
+    backgroundColor?: string;
     /**
      * Custom logo location. Default empty.
      */
-    logoUrl?: string,
+    logoUrl?: string;
     /**
      * Custom background image location. Default empty.
      */
-    backgroundImageUrl?: string,
+    backgroundImageUrl?: string;
     /**
      * How to display the background image. Default top-left.
      */
-    backgroundImagePosition?: 'topLeft' | 'stretch',
+    backgroundImagePosition?: 'topLeft' | 'stretch';
     /**
      * Whether to show the publisher's other publications. Default false.
      */
-    showOtherPublications?: boolean,
+    showOtherPublications?: boolean;
     /**
      * Whether to hide the sharing options. Default false.
      */
-    hideShare?: boolean,
-};
-type GetPublicationFullscreenShareBySlugResult = URLResult;
+    hideShare?: boolean;
+}
+interface GetPublicationFullscreenShareBySlugResult extends URLResult {}
 
-type GetPublicationReaderShareBySlugResult = URLResult;
+interface GetPublicationReaderShareBySlugResult extends URLResult {}
 
 /**
  * Request to generate a QR code for the publication. Include fullscreenSettings if a QR code for a shareable fullscreen reader is desired. The returned URL is valid for 7 days.
  */
-type GetPublicationQRCodeShareBySlugRequest = {
+interface GetPublicationQRCodeShareBySlugRequest {
     /**
      * The image format. Default PNG
      */
-    format: ImageFormat,
+    format: ImageFormat;
     /**
      * Settings for the fullscreen share link
      */
-    fullscreenSettings: GetPublicationFullscreenShareBySlugRequest,
-};
-type GetPublicationQRCodeShareBySlugResult = {
-    qrCodeUrl: string,
-    pointedUrl: string
-};
+    fullscreenSettings: GetPublicationFullscreenShareBySlugRequest;
+}
+interface GetPublicationQRCodeShareBySlugResult {
+    qrCodeUrl: string;
+    pointedUrl: string;
+}
 
-type GetPublicationEmbedCodeBySlugRequest = {
+interface GetPublicationEmbedCodeBySlugRequest {
     /**
      * Default true.
      */
-    responsive?: boolean,
+    responsive?: boolean;
     /**
      * Default 100%.
      */
-    width?: number | string,
+    width?: number | string;
     /**
      * Default 100%.
      */
-    height?: number | string,
+    height?: number | string;
     /**
      * Default false.
      */
-    hideIssuuLogo?: boolean,
+    hideIssuuLogo?: boolean;
     /**
      * Default false.
      */
-    hideShareButton?: boolean,
+    hideShareButton?: boolean;
     /**
      * Default false.
      */
-    showOtherPublications?: boolean,
+    showOtherPublications?: boolean;
     /**
      * Determines the background color (hex) of the embed.
      */
-    bgColor?: string,
+    bgColor?: string;
     /**
      * Determines the background color (hex) of the fullscreen share.
      */
-    fullScreenShareBgColor?: string,
-};
-type GetPublicationEmbedCodeBySlugResult = {
-    embed: string,
-};
+    fullScreenShareBgColor?: string;
+}
+interface GetPublicationEmbedCodeBySlugResult {
+    embed: string;
+}
 
 export type {
     GetPublicationBySlugResult,
