@@ -4,7 +4,7 @@ import {
     DocumentFileInfoType,
     DocumentType,
     DraftConversionStatus,
-    DraftStatus
+    DocumentStatus
 } from "./common";
 
 interface DocumentInformation {
@@ -63,7 +63,7 @@ interface Document {
         conversionStatus: DraftConversionStatus;
         isCopyrightConfirmed: boolean;
     };
-    state: DraftStatus;
+    state: DocumentStatus;
     /**
      * The document edit page URL for the publisher
      */

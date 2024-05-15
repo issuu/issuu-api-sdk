@@ -3,7 +3,7 @@ import {
     DocumentType,
     DraftConversionStatus,
     DocumentFileInfoType,
-    DraftStatus,
+    DocumentStatus,
     CoverAsset
 } from "./common";
 import { Document, DocumentInformation } from "./document";

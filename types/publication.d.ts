@@ -1,4 +1,4 @@
-import { DocumentType, Access, DraftStatus, Link, ImageFormat, URLResult } from "./common";
+import { DocumentType, Access, DocumentStatus, Link, ImageFormat, URLResult } from "./common";
 import { Document, DocumentInformation } from "./document";
 
 /**
@@ -6,7 +6,7 @@ import { Document, DocumentInformation } from "./document";
  */
 interface GetPublicationBySlugResult extends DocumentInformation, Document {};
 
-interface GetPublicationAssetsBySlugResult1 {
+interface PublicationAssetsResult {
     assets: {
         text: {
             [key: string]: string;
@@ -17,7 +17,7 @@ interface GetPublicationAssetsBySlugResult1 {
     };
     pageNumber: number;
 }
-interface GetPublicationAssetsBySlugResult2 {
+interface PublicationThumbnailsResult {
     thumbnails: {
         medium?: string;
         large?: string;
@@ -27,7 +27,7 @@ interface GetPublicationAssetsBySlugResult2 {
     pageNumber: number;
 }
 interface GetPublicationAssetsBySlugResult {
-    results: (GetPublicationAssetsBySlugResult1 | GetPublicationAssetsBySlugResult2)[];
+    results: (PublicationAssetsResult | PublicationThumbnailsResult)[];
     links: {
         next?: Link;
         self?: Link;
