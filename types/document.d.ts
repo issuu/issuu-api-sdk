@@ -69,10 +69,6 @@ interface Document {
      */
     location: string;
     /**
-     * The document page URL
-     */
-    publicLocation?: string;
-    /**
      * Changes to be apply on the next publish
      */
     changes?: DocumentInformation;

@@ -4,7 +4,12 @@ import { Document, DocumentInformation } from "./document";
 /**
  * Represents a document. It is a discriminated union of DocumentDraft, DocumentPublished, DocumentScheduled, DocumentUnpublished and DocumentQuarantined structures. The discriminator is the state field.
  */
-interface GetPublicationBySlugResult extends DocumentInformation, Document {};
+interface GetPublicationBySlugResult extends DocumentInformation, Document {
+    /**
+     * The document page URL
+     */
+    publicLocation?: string;
+};
 
 interface PublicationAssetsResult {
     assets: {
