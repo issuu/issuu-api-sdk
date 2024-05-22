@@ -210,3 +210,15 @@ describe('Delete a stack', () => {
         }
     });
 });
+describe('Delete token', () => {
+    it('should revoke token', async () => {
+        try {
+            await user.revokeToken();
+            expect(user.getMyFeatures()).rejects.toMatchObject({ 
+                status: expect.any(Number)
+            });
+        } catch (error) {
+            console.error('Error revoking token');
+        }
+    });
+});
