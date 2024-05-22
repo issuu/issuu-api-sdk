@@ -18,6 +18,7 @@ interface GetMyStatsResult {
     clicks: number;
     impressions: number;
     reads: number;
+    downloads: number;
 }
 
 interface GetMyProfileResult {
