@@ -320,4 +320,18 @@ export const draft = {
             };
         }
     },
+    /**
+     * @deprecated This function is deprecated. Use saveAndUploadDraft instead.
+    */
+    async createAndUploadDraft(
+        draft: CreateNewDraftRequest | UpdateDraftBySlugRequest,
+        document: UploadDocumentToDraftBySlugRequest,
+        publishAtTheEnd: boolean = true,
+        progressCallback?: (progress: number) => void,
+        options?: PublishDraftBySlugRequest,
+        abortController?: AbortController,
+    ): Promise<CreateAndPublishDraftResponse>
+    {
+        return this.saveAndUploadDraft(draft, document, publishAtTheEnd, progressCallback, options, abortController);
+    },
 };
