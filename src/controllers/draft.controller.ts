@@ -257,7 +257,7 @@ export const draft = {
      * @param abortController
      */
     async saveAndUploadDraft(
-        draft: CreateNewDraftRequest | UpdateDraftBySlugRequest,
+        draft: CreateNewDraftRequest | (UpdateDraftBySlugRequest & { slug: string }),
         document: UploadDocumentToDraftBySlugRequest,
         publishAtTheEnd: boolean = true,
         progressCallback?: (progress: number) => void,
@@ -269,7 +269,9 @@ export const draft = {
         let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse;
         // Until 20%
         if('slug' in draft && draft.slug && typeof draft.slug === 'string') {
-            savedDraft = await this.updateDraftBySlug(draft.slug, draft as UpdateDraftBySlugRequest, abortController);
+            let slug = draft.slug;
+            delete draft.slug;
+            savedDraft = await this.updateDraftBySlug(slug, draft as UpdateDraftBySlugRequest, abortController);
         } else {
             savedDraft = await this.createNewDraft(draft as CreateNewDraftRequest, abortController);
         }
