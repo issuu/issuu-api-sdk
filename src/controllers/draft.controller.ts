@@ -324,7 +324,7 @@ export const draft = {
      * @deprecated This function is deprecated. Use saveAndUploadDraft instead.
     */
     async createAndUploadDraft(
-        draft: CreateNewDraftRequest | UpdateDraftBySlugRequest,
+        draft: CreateNewDraftRequest,
         document: UploadDocumentToDraftBySlugRequest,
         publishAtTheEnd: boolean = true,
         progressCallback?: (progress: number) => void,

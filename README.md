@@ -100,7 +100,9 @@ const user_info = await user.getMyProfile();
 
 `publishDraftBySlug(slug: string, options?: PublishDraftBySlugRequest, abortController?: AbortController)`: Publishes a draft by its slug.
 
-`createAndUploadDraft(draft: CreateNewDraftRequest, document: UploadDocumentToDraftBySlugRequest, publishAtTheEnd: boolean, progressCallback?: (progress: number) => void, options?: PublishDraftBySlugRequest, abortController?: AbortController)`: Creates, uploads document, and publishes a draft.
+`saveAndUploadDraft(draft: CreateNewDraftRequest | UpdateDraftBySlugRequest, document: UploadDocumentToDraftBySlugRequest, publishAtTheEnd: boolean, progressCallback?: (progress: number) => void, options?: PublishDraftBySlugRequest & { checkConversionStatusTimeout?: number }, abortController?: AbortController)`: Creates or Updates, uploads file, and publishes a draft.
+
+~~`createAndUploadDraft(draft: CreateNewDraftRequest, document: UploadDocumentToDraftBySlugRequest, publishAtTheEnd: boolean, progressCallback?: (progress: number) => void, options?: PublishDraftBySlugRequest, abortController?: AbortController)`: Creates, uploads file, and publishes a draft.~~ (Deprecated)
 
 ## Contributing
 
