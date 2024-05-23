@@ -253,26 +253,31 @@ export const draft = {
      * @param draft The data to create the draft with.
      * @param document The file data to upload.
      * @param progressCallback A callback function to track the upload progress.
-     * @param options The desired name for the publication.
+     * @param options Options for the publication.
      * @param abortController
      */
-    async createAndUploadDraft(
-        draft: CreateNewDraftRequest,
+    async saveAndUploadDraft(
+        draft: CreateNewDraftRequest | UpdateDraftBySlugRequest,
         document: UploadDocumentToDraftBySlugRequest,
         publishAtTheEnd: boolean = true,
         progressCallback?: (progress: number) => void,
-        options?: PublishDraftBySlugRequest,
+        options?: PublishDraftBySlugRequest & { checkConversionStatusTimeout?: number },
         abortController?: AbortController,
     ): Promise<CreateAndPublishDraftResponse>
     {
         progressCallback?.(0);
+        let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse;
         // Until 20%
-        const newDraft = await this.createNewDraft(draft, abortController);
+        if('slug' in draft) {
+            savedDraft = await this.updateDraftBySlug(draft.slug, draft, abortController);
+        } else {
+            savedDraft = await this.createNewDraft(draft, abortController);
+        }
         progressCallback?.(20);
 
         // Until 70%
         await this.uploadDocumentToDraftBySlug(
-            newDraft.slug,
+            savedDraft.slug,
             document, 
             (percentage) => {
                 progressCallback?.(20 + (percentage * 0.5));
@@ -283,17 +288,19 @@ export const draft = {
         // Until 80%
         let is_converted = false;
         while (!is_converted) {
-            const found = await this.getDraftBySlug(newDraft.slug, abortController);
+            const found = await this.getDraftBySlug(savedDraft.slug, abortController);
             if (found.fileInfo.conversionStatus === 'DONE') {
                 is_converted = true;
             }
+
+            await new Promise((resolve) => setTimeout(resolve, options?.checkConversionStatusTimeout || 1000));
         }
         progressCallback?.(80);
 
         let result: PublishDraftBySlugResponse;
         if(publishAtTheEnd) {
             result = await this.publishDraftBySlug(
-                newDraft.slug,
+                savedDraft.slug,
                 options,
                 abortController
             );
@@ -303,14 +310,28 @@ export const draft = {
             // Return the result
             return {
                 ...result,
-                slug: newDraft.slug,
+                slug: savedDraft.slug,
             };
         }
         else {
             progressCallback?.(100);
             return {
-                slug: newDraft.slug,
+                slug: savedDraft.slug,
             };
         }
+    },
+    /**
+     * @deprecated This function is deprecated. Use saveAndUploadDraft instead.
+    */
+    async createAndUploadDraft(
+        draft: CreateNewDraftRequest | UpdateDraftBySlugRequest,
+        document: UploadDocumentToDraftBySlugRequest,
+        publishAtTheEnd: boolean = true,
+        progressCallback?: (progress: number) => void,
+        options?: PublishDraftBySlugRequest,
+        abortController?: AbortController,
+    ): Promise<CreateAndPublishDraftResponse>
+    {
+        return this.saveAndUploadDraft(draft, document, publishAtTheEnd, progressCallback, options, abortController);
     },
 };
