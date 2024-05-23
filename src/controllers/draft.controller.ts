@@ -269,9 +269,9 @@ export const draft = {
         let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse;
         // Until 20%
         if('slug' in draft && draft.slug && typeof draft.slug === 'string') {
-            savedDraft = await this.updateDraftBySlug(draft.slug, draft, abortController);
+            savedDraft = await this.updateDraftBySlug(draft.slug, draft as UpdateDraftBySlugRequest, abortController);
         } else {
-            savedDraft = await this.createNewDraft(draft as CreateNewDraftResponse, abortController);
+            savedDraft = await this.createNewDraft(draft as CreateNewDraftRequest, abortController);
         }
         progressCallback?.(20);
 
