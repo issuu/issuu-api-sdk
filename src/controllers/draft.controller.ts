@@ -269,9 +269,7 @@ export const draft = {
         let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse;
         // Until 20%
         if('slug' in draft && draft.slug && typeof draft.slug === 'string') {
-            let slug = draft.slug;
-            delete draft.slug;
-            savedDraft = await this.updateDraftBySlug(slug, draft as UpdateDraftBySlugRequest, abortController);
+            savedDraft = await this.updateDraftBySlug(draft.slug, { ...draft, slug: undefined } as UpdateDraftBySlugRequest, abortController);
         } else {
             savedDraft = await this.createNewDraft(draft as CreateNewDraftRequest, abortController);
         }
