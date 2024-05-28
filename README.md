@@ -54,6 +54,8 @@ const user_info = await user.getMyProfile();
 
 `getAllData(page?: number, size?: number, abortController?: AbortController)`: Fetches all the data of the authenticated user.
 
+`revokeToken()`: Revokes the token of the authenticated user.
+
 ## Publication Methods
 
 `getPublicationBySlug(slug: string, abortController?: AbortController)`: Fetches a publication by its slug.
