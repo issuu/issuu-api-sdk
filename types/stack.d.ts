@@ -1,53 +1,53 @@
 import { Link, StackAccessTypes } from "./common";
 
-type CreateNewStackRequest = {
-    accessType: StackAccessTypes,
-    description: string,
-    title: string
-};
+interface CreateNewStackRequest {
+    accessType: StackAccessTypes;
+    description: string;
+    title: string;
+}
 type CreateNewStackResponse = string;
 
-type GetStackResponse = CreateNewStackRequest & {
-    id: string
-};
+interface GetStackResponse extends CreateNewStackRequest { 
+    id: string;
+}
 
-type UpdateStackRequest = {
-    accessType?: StackAccessTypes,
-    description?: string,
-    title?: string
-};
-type UpdateStackResponse = GetStackResponse;
+interface UpdateStackRequest {
+    accessType?: StackAccessTypes;
+    description?: string;
+    title?: string;
+}
+interface UpdateStackResponse extends GetStackResponse {}
 
-type GetStackItemsRequest = {
+interface GetStackItemsRequest {
     /**
      * Include unlisted stacks in the list of stacks.
      * @default true
      */
-    includeUnlisted?: boolean,
+    includeUnlisted?: boolean;
     /**
      * Number of items to return per page.
      * @minimum 1
      * @maximum 100
      * @default 10
      */
-    size?: number,
+    size?: number;
     /**
      * Specifies the page number to return.
      * @minimum 1
      * @default 1
      */
-    page?: number,
-};
-type GetStackItemsResponse = {
-    results: string[],
-    count?: number,
-    pageSize: number,
+    page?: number;
+}
+interface GetStackItemsResponse {
+    results: string[];
+    count?: number;
+    pageSize: number;
     links: {
-        next?: Link,
-        previous?: Link,
-        self?: Link,
-    },
-};
+        next?: Link;
+        previous?: Link;
+        self?: Link;
+    };
+}
 
 export type {
     CreateNewStackRequest,

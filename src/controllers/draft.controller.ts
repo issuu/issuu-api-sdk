@@ -254,29 +254,29 @@ export const draft = {
      * @param draft The data to create the draft with.
      * @param document The file data to upload.
      * @param progressCallback A callback function to track the upload progress.
-     * @param options The desired name for the publication.
+     * @param options Options for the publication.
      * @param abortController
      */
-    async createAndUploadDraft(
-        draft: CreateNewDraftRequest,
+    async saveAndUploadDraft(
+        draft: CreateNewDraftRequest | (UpdateDraftBySlugRequest & { slug: string }),
         document: UploadDocumentToDraftBySlugRequest,
         publishAtTheEnd: boolean = true,
         progressCallback?: (progress: number) => void,
-        options?: PublishDraftBySlugRequest,
+        options?: PublishDraftBySlugRequest & { checkConversionStatusTimeout?: number },
         abortController?: AbortController,
     ): Promise<CreateAndPublishDraftResponse | void>
     {
-        let newDraft: CreateNewDraftResponse, result: PublishDraftBySlugResponse, is_aborted = false;
+        let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse, result: PublishDraftBySlugResponse, is_aborted = false;
         progressCallback?.(0);
 
         // setup abort controller
         if(abortController) {
             abortController.signal.addEventListener('abort', async () => {
-                if(!newDraft) return;
-                else if(newDraft && !result) {
-                    await this.deleteDraftBySlug(newDraft.slug, abortController);
+                if(!savedDraft) return;
+                else if(savedDraft && !result) {
+                    await this.deleteDraftBySlug(savedDraft.slug, abortController);
                     is_aborted = true;
-                } else if(newDraft && result) {
+                } else if(savedDraft && result) {
                     await publication.deletePublicationBySlug(result.slug, abortController);
                     is_aborted = true;
                 }
@@ -284,13 +284,17 @@ export const draft = {
         }
 
         // Until 20%
-        newDraft = await this.createNewDraft(draft, abortController);
+        if('slug' in draft && draft.slug && typeof draft.slug === 'string') {
+            savedDraft = await this.updateDraftBySlug(draft.slug, { ...draft, slug: undefined } as UpdateDraftBySlugRequest, abortController);
+        } else {
+            savedDraft = await this.createNewDraft(draft as CreateNewDraftRequest, abortController);
+        }
         progressCallback?.(20);
 
         // Until 70%
         if(is_aborted) return progressCallback?.(100);
         await this.uploadDocumentToDraftBySlug(
-            newDraft.slug,
+            savedDraft.slug,
             document, 
             (percentage) => {
                 progressCallback?.(20 + (percentage * 0.5));
@@ -302,17 +306,19 @@ export const draft = {
         if(is_aborted) return progressCallback?.(100);
         let is_converted = false;
         while (!is_converted) {
-            const found = await this.getDraftBySlug(newDraft.slug, abortController);
+            const found = await this.getDraftBySlug(savedDraft.slug, abortController);
             if (found.fileInfo.conversionStatus === 'DONE') {
                 is_converted = true;
             }
+
+            await new Promise((resolve) => setTimeout(resolve, options?.checkConversionStatusTimeout || 1000));
         }
         progressCallback?.(80);
 
         if(is_aborted) return progressCallback?.(100);
         if(publishAtTheEnd) {
             result = await this.publishDraftBySlug(
-                newDraft.slug,
+                savedDraft.slug,
                 options,
                 abortController
             );
@@ -323,14 +329,28 @@ export const draft = {
             // Return the result
             return {
                 ...result,
-                slug: newDraft.slug,
+                slug: savedDraft.slug,
             };
         }
         else {
             progressCallback?.(100);
             return {
-                slug: newDraft.slug,
+                slug: savedDraft.slug,
             };
         }
+    },
+    /**
+     * @deprecated This function is deprecated. Use saveAndUploadDraft instead.
+    */
+    async createAndUploadDraft(
+        draft: CreateNewDraftRequest,
+        document: UploadDocumentToDraftBySlugRequest,
+        publishAtTheEnd: boolean = true,
+        progressCallback?: (progress: number) => void,
+        options?: PublishDraftBySlugRequest,
+        abortController?: AbortController,
+    ): Promise<CreateAndPublishDraftResponse>
+    {
+        return this.saveAndUploadDraft(draft, document, publishAtTheEnd, progressCallback, options, abortController);
     },
 };

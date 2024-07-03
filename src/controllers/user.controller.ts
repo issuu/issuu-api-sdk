@@ -240,4 +240,16 @@ export const user = {
             throw error;
         }
     },
+    /**
+     * Revoke user token
+     * @returns void
+     */
+    async revokeToken(): Promise<void> {
+        try {
+            await api.delete<void>('/oauth/access');
+            return;
+        } catch (error) {
+            throw error;
+        }
+    }
 };

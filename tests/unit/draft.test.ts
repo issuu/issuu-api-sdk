@@ -157,7 +157,7 @@ describe('Publish a draft by slug', () => {
                 console.log('Progress:', progress);
             };
 
-            const published = await draft.createAndUploadDraft(new_draft, {
+            const published = await draft.saveAndUploadDraft(new_draft, {
                 confirmCopyright: 'true',
                 file: new Blob(['This is a test document'], { type: 'text/plain' }),
             }, true, onProgress, {
