@@ -280,12 +280,12 @@ export const draft = {
                     if (!!options?.shouldDeleteOnAbort && !!savedDraft.slug) {
                         await this.deleteDraftBySlug(savedDraft.slug, abortController);
                     }
-                    is_aborted = true;
+                    isAborted = true;
                 } else if(savedDraft && result) {
                     if (!!options?.shouldDeleteOnAbort && !!result.slug) {
                         await publication.deletePublicationBySlug(result.slug, abortController);
                     }
-                    is_aborted = true;
+                    isAborted = true;
                 }
             });
         }
@@ -299,7 +299,7 @@ export const draft = {
         progressCallback?.(20);
 
         // Until 70%
-        if(is_aborted) return progressCallback?.(100);
+        if(isAborted) return progressCallback?.(100);
         await this.uploadDocumentToDraftBySlug(
             savedDraft.slug,
             document, 
@@ -310,7 +310,7 @@ export const draft = {
         );
 
         // Until 80%
-        if(is_aborted) return progressCallback?.(100);
+        if(isAborted) return progressCallback?.(100);
         let is_converted = false;
         while (!is_converted) {
             const found = await this.getDraftBySlug(savedDraft.slug, abortController);
@@ -322,7 +322,7 @@ export const draft = {
         }
         progressCallback?.(80);
 
-        if(is_aborted) return progressCallback?.(100);
+        if(isAborted) return progressCallback?.(100);
         if(publishAtTheEnd) {
             result = await this.publishDraftBySlug(
                 savedDraft.slug,
@@ -332,7 +332,7 @@ export const draft = {
             // Until 100%
             progressCallback?.(100);
             
-            if(is_aborted) return progressCallback?.(100);
+            if(isAborted) return progressCallback?.(100);
             // Return the result
             return {
                 ...result,
