@@ -262,7 +262,10 @@ export const draft = {
         document: UploadDocumentToDraftBySlugRequest,
         publishAtTheEnd: boolean = true,
         progressCallback?: (progress: number) => void,
-        options?: PublishDraftBySlugRequest & { checkConversionStatusTimeout?: number },
+        options?: PublishDraftBySlugRequest & { 
+            checkConversionStatusTimeout?: number,
+            shouldDeleteOnAbort?: boolean,
+        },
         abortController?: AbortController,
     ): Promise<CreateAndPublishDraftResponse | void>
     {
@@ -274,10 +277,14 @@ export const draft = {
             abortController.signal.addEventListener('abort', async () => {
                 if(!savedDraft) return;
                 else if(savedDraft && !result) {
-                    await this.deleteDraftBySlug(savedDraft.slug, abortController);
+                    if (!!options?.shouldDeleteOnAbort && !!savedDraft.slug) {
+                        await this.deleteDraftBySlug(savedDraft.slug, abortController);
+                    }
                     is_aborted = true;
                 } else if(savedDraft && result) {
-                    await publication.deletePublicationBySlug(result.slug, abortController);
+                    if (!!options?.shouldDeleteOnAbort && !!result.slug) {
+                        await publication.deletePublicationBySlug(result.slug, abortController);
+                    }
                     is_aborted = true;
                 }
             });
@@ -347,9 +354,12 @@ export const draft = {
         document: UploadDocumentToDraftBySlugRequest,
         publishAtTheEnd: boolean = true,
         progressCallback?: (progress: number) => void,
-        options?: PublishDraftBySlugRequest,
+        options?: PublishDraftBySlugRequest & { 
+            checkConversionStatusTimeout?: number,
+            shouldDeleteOnAbort?: boolean,
+        },
         abortController?: AbortController,
-    ): Promise<CreateAndPublishDraftResponse>
+    ): Promise<CreateAndPublishDraftResponse | void>
     {
         return this.saveAndUploadDraft(draft, document, publishAtTheEnd, progressCallback, options, abortController);
     },
