@@ -164,6 +164,9 @@ describe('Publish a draft by slug', () => {
                 desiredName: 'jest-test-publish-draft-by-slug',  
             });
 
+            expect(published).toBeDefined();
+            if (!published) return;
+
             publication_slug = published.slug!;
 
             expect(published).toBeDefined();
