@@ -269,7 +269,7 @@ export const draft = {
         abortController?: AbortController,
     ): Promise<CreateAndPublishDraftResponse | void>
     {
-        let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse, result: PublishDraftBySlugResponse, is_aborted = false;
+        let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse, result: PublishDraftBySlugResponse, isAborted = false;
         progressCallback?.(0);
 
         // setup abort controller
