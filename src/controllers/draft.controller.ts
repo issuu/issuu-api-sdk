@@ -282,9 +282,9 @@ export const draft = {
                     }
                     isAborted = true;
                 } else if(savedDraft && isPublished) {
-                    if (!!options?.shouldDeleteOnAbort && (!!result.slug || !!savedDraft.slug)) {
-                        const _slug = result.slug || savedDraft.slug;
-                        await publication.deletePublicationBySlug(_slug, abortController);
+                    if (!!options?.shouldDeleteOnAbort && (result && !!result.slug || !!savedDraft.slug)) {
+                        const _slug = result?.slug || savedDraft.slug;
+                        await publication.deletePublicationBySlug(_slug);
                     }
                     isAborted = true;
                 }
