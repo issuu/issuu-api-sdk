@@ -36,7 +36,7 @@ interface UpdateDraftBySlugRequest {
     fileUrl?: string;
     info?: DocumentInformation;
 }
-interface UpdateDraftBySlugResponse extends CreateNewDraftResponse {};
+interface UpdateDraftBySlugResponse extends Document {};
 
 interface UploadDocumentToDraftBySlugRequest {
     file: Blob;

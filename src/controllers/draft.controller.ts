@@ -269,19 +269,19 @@ export const draft = {
         abortController?: AbortController,
     ): Promise<CreateAndPublishDraftResponse | void>
     {
-        let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse, result: PublishDraftBySlugResponse, isAborted = false;
+        let savedDraft: CreateNewDraftResponse | UpdateDraftBySlugResponse, result: PublishDraftBySlugResponse, isAborted = false, isPublished = false;
         progressCallback?.(0);
 
         // setup abort controller
         if(abortController) {
             abortController.signal.addEventListener('abort', async () => {
                 if(!savedDraft) return;
-                else if(savedDraft && !result) {
+                else if(savedDraft && !isPublished) {
                     if (!!options?.shouldDeleteOnAbort && !!savedDraft.slug) {
                         await this.deleteDraftBySlug(savedDraft.slug, abortController);
                     }
                     isAborted = true;
-                } else if(savedDraft && result) {
+                } else if(savedDraft && isPublished) {
                     if (!!options?.shouldDeleteOnAbort && !!result.slug) {
                         await publication.deletePublicationBySlug(result.slug, abortController);
                     }
@@ -297,6 +297,10 @@ export const draft = {
             savedDraft = await this.createNewDraft(draft as CreateNewDraftRequest, abortController);
         }
         progressCallback?.(20);
+
+        if (savedDraft.state === 'PUBLISHED') {
+            isPublished = true;
+        }
 
         // Until 70%
         if(isAborted) return progressCallback?.(100);
@@ -329,6 +333,7 @@ export const draft = {
                 options,
                 abortController
             );
+            isPublished = true;
             // Until 100%
             progressCallback?.(100);
             
