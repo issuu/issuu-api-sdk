@@ -278,7 +278,7 @@ export const draft = {
                 if(!savedDraft) return;
                 else if(savedDraft && !isPublished) {
                     if (!!options?.shouldDeleteOnAbort && !!savedDraft.slug) {
-                        await this.deleteDraftBySlug(savedDraft.slug, abortController);
+                        await this.deleteDraftBySlug(savedDraft.slug);
                     }
                     isAborted = true;
                 } else if(savedDraft && isPublished) {
