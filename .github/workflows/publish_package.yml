@@ -13,7 +13,7 @@ jobs:
       contents: read
 
     steps:
-      - uses: hashicorp/vault-action@v2
+      - uses: hashicorp/vault-action@2c5827061f1ad91ca97897d6257ebe638e033699
         with:
           method: jwt
           path: jwt-github-actions
@@ -23,7 +23,7 @@ jobs:
               static2/data/github/issuu/issuu-api-sdk/manual NPM_CI_TOKEN
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493
 
       - name: Install Dependencies
         run: npm install
