@@ -23,7 +23,7 @@ jobs:
               static2/data/github/issuu/issuu-api-sdk/manual NPM_CI_TOKEN
 
       - name: Checkout Repository
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
 
       - name: Install Dependencies
         run: npm install
